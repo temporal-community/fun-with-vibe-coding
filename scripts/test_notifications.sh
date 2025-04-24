@@ -10,6 +10,9 @@ fi
 # Export the webhook URL
 export SLACK_WEBHOOK_URL="$1"
 
+# Add project root to PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
 # Run the notification service once (not in the background)
 echo "Testing notification service with webhook URL..."
 python3 src/cfp_tracker/scripts/run_notifications.py
