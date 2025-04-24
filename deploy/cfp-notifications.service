@@ -1,0 +1,17 @@
+[Unit]
+Description=CFP Tracker Notification Service
+After=network.target
+
+[Service]
+Type=simple
+User=cfp-tracker
+Group=cfp-tracker
+WorkingDirectory=/opt/cfp-tracker
+Environment=PYTHONPATH=/opt/cfp-tracker
+Environment=SLACK_WEBHOOK_URL=your_webhook_url_here
+ExecStart=/opt/cfp-tracker/venv/bin/python src/cfp_tracker/scripts/run_notifications.py
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target 
