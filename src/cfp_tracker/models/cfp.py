@@ -12,33 +12,32 @@ class CFP(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     conference_name = Column(String(255), nullable=False)
-    submission_deadline = Column(DateTime, nullable=False)
-    conference_start_date = Column(DateTime, nullable=False)
-    conference_end_date = Column(DateTime, nullable=False)
-    location = Column(String(255))
+    submission_deadline = Column(DateTime, nullable=True)
+    conference_start_date = Column(DateTime, nullable=True)
+    conference_end_date = Column(DateTime, nullable=True)
+    location = Column(String(255), nullable=True)
     is_virtual = Column(Boolean, default=False)
-    topics = Column(Text)  # Stored as JSON string
-    submission_url = Column(String(512))
+    topics = Column(Text, nullable=True)
+    submission_url = Column(String(512), nullable=False)
     source = Column(String(100), nullable=False)
-    source_url = Column(String(512))
+    source_url = Column(String(512), nullable=True)
+    description = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class CFPSchema(BaseModel):
-    """Pydantic model for CFP data validation"""
-    id: Optional[int] = None
+    """Schema for Call for Papers data"""
     conference_name: str
-    submission_deadline: datetime
-    conference_start_date: datetime
-    conference_end_date: datetime
-    location: Optional[str] = None
+    submission_deadline: Optional[datetime]
+    conference_start_date: Optional[datetime]
+    conference_end_date: Optional[datetime]
+    location: Optional[str]
     is_virtual: bool = False
-    topics: List[str] = Field(default_factory=list)
-    submission_url: Optional[str] = None
+    topics: List[str] = []
+    submission_url: str
     source: str
-    source_url: Optional[str] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    source_url: str
+    description: Optional[str] = None
 
     class Config:
-        from_attributes = True 
+        from_attributes = True  # For SQLAlchemy compatibility 
