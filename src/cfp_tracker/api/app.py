@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 
-from .endpoints import ingestion
+from .endpoints import ingestion, notifications
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -25,10 +25,16 @@ app.add_middleware(
 
 # Include routers
 app.include_router(ingestion.router, prefix="/api/v1/ingestion", tags=["ingestion"])
+app.include_router(notifications.router, prefix="/api/v1/notifications", tags=["notifications"])
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to CFP Tracker API"}
+    """Root endpoint."""
+    return {
+        "message": "Welcome to the CFP Tracker API",
+        "docs_url": "/docs",
+        "redoc_url": "/redoc"
+    }
 
 @app.get("/health")
 async def health_check():
